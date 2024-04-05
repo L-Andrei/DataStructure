@@ -2,9 +2,9 @@
 #include <stdio.h>
 
 typedef struct item {
-    int valor; //Value.
-    struct item* proximo; // Item that entered in queue before.
-    struct item* anterior; // Item that will enter in queue after.
+    int value; //Value.
+    struct item* next; // Item that entered in queue before.
+    struct item* previous; // Item that will enter in queue after.
 }item;
 
 typedef struct queue{
@@ -24,101 +24,101 @@ queue* initqueue(){
 item* initItem(){
     // Initializing one item.
     item* newItem=malloc(sizeof(item)); // alloc memory for object.
-    newItem->valor=0;
-    newItem->proximo=0;
-    newItem->anterior=0;
+    newItem->value=0;
+    newItem->next=0;
+    newItem->previous=0;
     return newItem;
 };
 
-void deleteFila(queue** fila){ 
-    free(*fila);
+void deletQueue(queue** queue){ 
+    free(*queue);
 };
 
-void esvaziaFila(queue** fila){
+void cleanQueue(queue** queue){
 
-    item* aux=(*fila)->head;
+    item* aux=(*queue)->head;
     while(aux!= 0){
 
-        item* temp= aux->anterior;
+        item* temp= aux->previous;
         free(aux);
         aux=temp;
     }
-    (*fila)->head = 0;
-    (*fila)->tail = 0;       
-    (*fila)->size = 0;
+    (*queue)->head = 0;
+    (*queue)->tail = 0;       
+    (*queue)->size = 0;
 };
 
-void entraNaFila(queue** fila, int valor )
+void insertInQueue(queue** queue, int value )
 {
     item* newItem = initItem();
     item* aux = initItem();
-    newItem->valor = valor;
-    if((*fila)->head==NULL){ // Add new item if queue is empty.
-        (*fila)->head=newItem;
-        (*fila)->tail=newItem;
-        (*fila)->size++;
-    }else if((*fila)->size == 1){ // Add new item if queue have one item.
-        newItem->proximo=(*fila)->head;
-        aux=(*fila)->head;
-        aux->anterior=newItem;
-        (*fila)->tail=newItem;
-        (*fila)->size++;
+    newItem->value = value;
+    if((*queue)->head==NULL){ // Add new item if queue is empty.
+        (*queue)->head=newItem;
+        (*queue)->tail=newItem;
+        (*queue)->size++;
+    }else if((*queue)->size == 1){ // Add new item if queue have one item.
+        newItem->next=(*queue)->head;
+        aux=(*queue)->head;
+        aux->previous=newItem;
+        (*queue)->tail=newItem;
+        (*queue)->size++;
     } else{ // Add new item if queue have more than two items.
-        newItem->proximo=(*fila)->tail;
-        aux = (*fila)->tail;
-        aux->anterior = newItem;
-        (*fila)->tail = newItem;
-        (*fila)->size++;
+        newItem->next=(*queue)->tail;
+        aux = (*queue)->tail;
+        aux->previous = newItem;
+        (*queue)->tail = newItem;
+        (*queue)->size++;
     }
 };
 
-void retiraDaFila(queue** fila){
+void removeFromQueue(queue** queue){
     item* aux = initItem();
     item* aux2 = initItem();
-    aux = (*fila)->head;
-    (*fila)->head=aux->anterior;
+    aux = (*queue)->head;
+    (*queue)->head=aux->previous;
     free(aux);
-    aux2 = (*fila)->head;
-    aux2->proximo=0;
-    (*fila)->size--;
+    aux2 = (*queue)->head;
+    aux2->next=0;
+    (*queue)->size--;
 };
 
-void encontraNaFila(const queue** fila,int valor){
+void SearchAtQueue(const queue** queue,int value){
     item* aux=initItem();
-    aux = (*fila)->head;
-    for (int i = 1; i <= ((*fila)->size); i++)
+    aux = (*queue)->head;
+    for (int i = 1; i <= ((*queue)->size); i++)
     {
-        if (aux->valor == valor)
+        if (aux->value == value)
         {
-            printf("The value %d on in %dº position.\n",valor,(i));
+            printf("The value %d on in %dº position.\n",value,(i));
             break;
         };
-        aux = aux->anterior;
+        aux = aux->previous;
     }
     
 };
 
-void imprimeFila(const queue** fila){
+void printQueue(const queue** queue){
     item* aux=initItem();
-    aux = (*fila)->head;
-    for (int i = 0; i < ((*fila)->size); i++)
+    aux = (*queue)->head;
+    for (int i = 0; i < ((*queue)->size); i++)
     {
-        printf("Value: %d | Position: %d \n",aux->valor,(i+1));
-        aux = aux->anterior;
+        printf("Value: %d | Position: %d \n",aux->value,(i+1));
+        aux = aux->previous;
     }
 };
 
 void main(){
 
-    queue* fila=initqueue();
-    entraNaFila(&fila,1);
-    entraNaFila(&fila,2);
-    entraNaFila(&fila,3);
-    imprimeFila(&fila);
-    retiraDaFila(&fila);
-    imprimeFila(&fila);
-    encontraNaFila(&fila,3);
-    esvaziaFila(&fila);
-    deleteFila(&fila);
-    printf("queuea esvaziada");
+    queue* queue=initqueue();
+    insertInQueue(&queue,1);
+    insertInQueue(&queue,2);
+    insertInQueue(&queue,3);
+    printQueue(&queue);
+    removeFromQueue(&queue);
+    printQueue(&queue);
+    SearchOnQueue(&queue,3);
+    cleanQueue(&queue);
+    deletQueue(&queue);
+    printf("Queue cleaned");
 };
