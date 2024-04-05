@@ -2,51 +2,53 @@
 #include <stdio.h>
 
 typedef struct item {
-    int valor; 
-    struct item* proximo; 
-    struct item* anterior;
+    int valor; //Value.
+    struct item* proximo; // Item that entered in queue before.
+    struct item* anterior; // Item that will enter in queue after.
 }item;
 
-typedef struct list{
-    item* head;
-    item* tail;
-    int size;
-}list;
+typedef struct queue{
+    item* head; // First of queue.
+    item* tail; // Last of queue.
+    int size; // Size of queue.
+}queue;
 
-list* initList(){
-    list* newList=malloc(sizeof(list));
-    newList->head=0;
-    newList->tail=0;
-    return newList;
+queue* initqueue(){ 
+    // Initializing a queue.
+    queue* newqueue=malloc(sizeof(queue)); // alloc memory for object.
+    newqueue->head=0;
+    newqueue->tail=0;
+    return newqueue;
 };
 
 item* initItem(){
-    item* newItem=malloc(sizeof(item));
+    // Initializing one item.
+    item* newItem=malloc(sizeof(item)); // alloc memory for object.
     newItem->valor=0;
     newItem->proximo=0;
     newItem->anterior=0;
     return newItem;
 };
 
-void deleteFila(list** fila){ 
+void deleteFila(queue** fila){ 
     free(*fila);
 };
 
-void esvaziaFila(list** fila){
+void esvaziaFila(queue** fila){
 
-    item* itemAtual=(*fila)->head;
-    while(itemAtual!= 0){
+    item* aux=(*fila)->head;
+    while(aux!= 0){
 
-        item* temp= itemAtual->anterior;
-        free(itemAtual);
-        itemAtual=temp;
+        item* temp= aux->anterior;
+        free(aux);
+        aux=temp;
     }
     (*fila)->head = 0;
     (*fila)->tail = 0;       
     (*fila)->size = 0;
 };
 
-void entraNaFila(list** fila, int valor )
+void entraNaFila(queue** fila, int valor )
 {
     item* newItem = initItem();
     item* aux = initItem();
@@ -70,7 +72,7 @@ void entraNaFila(list** fila, int valor )
     }
 };
 
-void retiraDaFila(list** fila){
+void retiraDaFila(queue** fila){
     item* aux = initItem();
     item* aux2 = initItem();
     aux = (*fila)->head;
@@ -81,7 +83,7 @@ void retiraDaFila(list** fila){
     (*fila)->size--;
 };
 
-void encontraNaFila(const list** fila,int valor){
+void encontraNaFila(const queue** fila,int valor){
     item* aux=initItem();
     aux = (*fila)->head;
     for (int i = 1; i <= ((*fila)->size); i++)
@@ -96,7 +98,7 @@ void encontraNaFila(const list** fila,int valor){
     
 };
 
-void imprimeFila(const list** fila){
+void imprimeFila(const queue** fila){
     item* aux=initItem();
     aux = (*fila)->head;
     for (int i = 0; i < ((*fila)->size); i++)
@@ -108,7 +110,7 @@ void imprimeFila(const list** fila){
 
 void main(){
 
-    list* fila=initList();
+    queue* fila=initqueue();
     entraNaFila(&fila,1);
     entraNaFila(&fila,2);
     entraNaFila(&fila,3);
@@ -118,5 +120,5 @@ void main(){
     encontraNaFila(&fila,3);
     esvaziaFila(&fila);
     deleteFila(&fila);
-    printf("lista esvaziada");
+    printf("queuea esvaziada");
 };
