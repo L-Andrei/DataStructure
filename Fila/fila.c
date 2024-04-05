@@ -53,17 +53,17 @@ void entraNaFila(queue** fila, int valor )
     item* newItem = initItem();
     item* aux = initItem();
     newItem->valor = valor;
-    if((*fila)->head==NULL){
+    if((*fila)->head==NULL){ // Add new item if queue is empty.
         (*fila)->head=newItem;
         (*fila)->tail=newItem;
         (*fila)->size++;
-    }else if((*fila)->size == 1){
+    }else if((*fila)->size == 1){ // Add new item if queue have one item.
         newItem->proximo=(*fila)->head;
         aux=(*fila)->head;
         aux->anterior=newItem;
         (*fila)->tail=newItem;
         (*fila)->size++;
-    } else{
+    } else{ // Add new item if queue have more than two items.
         newItem->proximo=(*fila)->tail;
         aux = (*fila)->tail;
         aux->anterior = newItem;
@@ -90,7 +90,7 @@ void encontraNaFila(const queue** fila,int valor){
     {
         if (aux->valor == valor)
         {
-            printf("O valor %d esta na %dº posição.\n",valor,(i));
+            printf("The value %d on in %dº position.\n",valor,(i));
             break;
         };
         aux = aux->anterior;
@@ -103,7 +103,7 @@ void imprimeFila(const queue** fila){
     aux = (*fila)->head;
     for (int i = 0; i < ((*fila)->size); i++)
     {
-        printf("Valor: %d | Posição: %d \n",aux->valor,(i+1));
+        printf("Value: %d | Position: %d \n",aux->valor,(i+1));
         aux = aux->anterior;
     }
 };
