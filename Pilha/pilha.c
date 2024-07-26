@@ -51,7 +51,6 @@ void pushItem(list** lista, int valor ){
     newItem->valor=valor;
     //se a lista for vazia 
     if((*lista)->head ==  NULL){
-        //automaticamente ele aponta para alguma coisa, minha cabeça, e o final da lista recebe o primeiro item
         (*lista)->head=newItem;
         (*lista)->tail=newItem;
         (*lista)->size++;
