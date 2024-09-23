@@ -138,7 +138,7 @@ void fixTree(treeRB* t, Node* n){
             }
         }
     }
-    t->raiz->color = BLACK;
+    t->raiz->cor = BLACK;
 }
 
 
